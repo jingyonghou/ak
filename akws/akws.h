@@ -5,6 +5,7 @@
 #ifndef KALDI_AKWS_AKWS_H_
 #define KALDI_AKWS_AKWS_H_
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -25,11 +26,14 @@ public:
     AcousticKeywordSpotting() {}
 
     ~AcousticKeywordSpotting() {}    
+private:
+    fst::VectorFst<fst::StdArc> * InverseArcOfFst(const fst::VectorFst<fst::StdArc> &fst);
+
+    float VertibeDecode(const fst::VectorFst<fst::StdArc> &fst, Matrix<BaseFloat> &acoustic_cost, std::pair<int, int> &area);
 
 public:
-    float SegmentationByFillerReestimation(const fst::VectorFst<fst::StdArc> &fst, DecodableInterface *decodable);
+    float SegmentationByFillerReestimation(float epsilon, const fst::VectorFst<fst::StdArc> &fst, DecodableInterface *decodable, std::pair<int, int> &area);
 
-    fst::VectorFst<fst::StdArc> * InverseArcOfFst(const fst::VectorFst<fst::StdArc> &fst);
 };
 
 } //namespace akws
